@@ -1,9 +1,9 @@
 # Premium Melt notes
 Series: 3D Web Experiments #1
-Credit: Built with Claude Opus 5.5
+Credit: Built with Gemini 4.0
 Reference format: @DilumSanjaya
-Live URL:
-Repo:
+Live URL: https://premium-melt.prayushkale.workers.dev
+Repo: https://github.com/prayushkale/premium-melt
 
 ## First prompt (verbatim)
 read and build the @[PLAN.md]
@@ -11,14 +11,14 @@ read and build the @[PLAN.md]
 ## Models and sessions
 | Date | Model ID | What it did |
 |---|---|---|
-| 2026-11-24 | Gemini 4 Neon (High) | Built full Premium Melt app from PLAN.md (model, tests, 3D scene, HUD, E2E, screenshots, OG image, deploy scripts) |
+| 2026-11-24 | Gemini 4.0 | Built full Premium Melt app from PLAN.md (model, tests, 3D scene, HUD, E2E, screenshots, OG image, deploy scripts) |
 
 ## What broke
 | # | Prompt (verbatim) | Model | What went wrong | Screenshot or test output | Fix that worked | Commit |
 |---|---|---|---|---|---|---|
-| 1 | read and build the @[PLAN.md] | Gemini 4 Neon (High) | Initial camera `[-8, 8.5, 18]` sat too close: front strike labels and "NIFTY strikes" clipped behind bottom clock bar, and left height ticks were off-frame | `shots/broken-01-camera-framing.png` | Pulled camera back to `[-6.5, 12.2, 26.5]` (fov 40) targeting `[-0.3, 0.4, 0.6]` and extended fog range | 4de6b95 |
-| 2 | read and build the @[PLAN.md] | Gemini 4 Neon (High) | At IV 30% (₹430.90), additive crestGlow + Bloom washed the ridge crest out to flat white and clipped the peak at top | `shots/broken-02-iv30-bloom-washout.png` | Lowered crestGlow to 0.08, raised Bloom luminanceThreshold to 0.96, lowered intensity to 0.25 | 4de6b95 |
-| 3 | read and build the @[PLAN.md] | Gemini 4 Neon (High) | Abramowitz-Stegun 7.1.26 approximation error (+4.2e-8 at x=0.006365) shifted S=K=26,000 weekly ATM premium from ₹186.7340 to ₹186.7351 (rounding to ₹186.74) | `e2e/smoke.spec.ts` Expected "₹186.73", Received "₹186.74" | Used exact Taylor series for `|x| < 0.05` before A-S 7.1.26 in `erf()`, restoring exact ₹186.73 | 4de6b95 |
+| 1 | read and build the @[PLAN.md] | Gemini 4.0 | Initial camera `[-8, 8.5, 18]` sat too close: front strike labels and "NIFTY strikes" clipped behind bottom clock bar, and left height ticks were off-frame | `shots/broken-01-camera-framing.png` | Pulled camera back to `[-6.5, 12.2, 26.5]` (fov 40) targeting `[-0.3, 0.4, 0.6]` and extended fog range | 4de6b95 |
+| 2 | read and build the @[PLAN.md] | Gemini 4.0 | At IV 30% (₹430.90), additive crestGlow + Bloom washed the ridge crest out to flat white and clipped the peak at top | `shots/broken-02-iv30-bloom-washout.png` | Lowered crestGlow to 0.08, raised Bloom luminanceThreshold to 0.96, lowered intensity to 0.25 | 4de6b95 |
+| 3 | read and build the @[PLAN.md] | Gemini 4.0 | Abramowitz-Stegun 7.1.26 approximation error (+4.2e-8 at x=0.006365) shifted S=K=26,000 weekly ATM premium from ₹186.7340 to ₹186.7351 (rounding to ₹186.74) | `e2e/smoke.spec.ts` Expected "₹186.73", Received "₹186.74" | Used exact Taylor series for `|x| < 0.05` before A-S 7.1.26 in `erf()`, restoring exact ₹186.73 | 4de6b95 |
 
 ## Tests
 Parity cases run: 3528 / Tests passing: 26/26 / Worst parity error: 6.31e-12

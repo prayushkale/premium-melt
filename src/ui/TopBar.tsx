@@ -77,7 +77,7 @@ export function TopBar({ onCopyLink }: TopBarProps) {
           )}
         </div>
         <p className="credit-line">
-          Built with Claude Opus 5.5 by{' '}
+          Built with Gemini 4.0 by{' '}
           <a
             href="https://x.com/prayushkale"
             target="_blank"
