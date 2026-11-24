@@ -24,8 +24,8 @@ export function createTerrainUniforms(spot: number, centre: number): TerrainUnif
     uXPerPoint: { value: X_PER_POINT },
     uYPerRupee: { value: Y_PER_RUPEE },
     uFogColor: { value: new THREE.Color('#07090c') },
-    uFogNear: { value: 36 },
-    uFogFar: { value: 78 },
+    uFogNear: { value: 52 },
+    uFogFar: { value: 105 },
     uC0: { value: new THREE.Color('#10242b') },
     uC1: { value: new THREE.Color('#1f5a5e') },
     uC2: { value: new THREE.Color('#c2491d') },
@@ -103,8 +103,8 @@ void main() {
   float shade = mix(0.62 + 0.42 * keyLight + 0.14 * fillLight, 1.04, smoothstep(0.55, 1.0, heat));
   vec3 color = baseColor * shade;
 
-  // Gentle incandescent boost on very tall crests so selective bloom stays restrained
-  float crestGlow = smoothstep(170.0, 310.0, rupees) * 0.28;
+  // Subtle warm sheen on tall crests without washing out into white under Bloom
+  float crestGlow = smoothstep(180.0, 360.0, rupees) * 0.08;
   color += uC4 * crestGlow;
 
   // Strike lines every 100 and brighter lines every 500

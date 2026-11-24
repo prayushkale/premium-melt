@@ -30,11 +30,12 @@ function ResponsiveCamera({ isCompact }: { isCompact: boolean }) {
 
   useEffect(() => {
     if (isCompact) {
-      camera.position.set(-10.5, 11.2, 26.5);
+      camera.position.set(-5.5, 16.0, 34.5);
+      camera.lookAt(0, -0.4, 0.5);
     } else {
-      camera.position.set(-8, 8.5, 18);
+      camera.position.set(-6.5, 12.2, 26.5);
+      camera.lookAt(-0.3, 0.4, 0.6);
     }
-    camera.lookAt(0, 1.2, 0);
     camera.updateProjectionMatrix();
     invalidate();
   }, [camera, invalidate, isCompact]);
@@ -71,10 +72,10 @@ export function Scene({ view, isCompact, onSelectStrike }: SceneProps) {
         dpr={[1, 2]}
         frameloop="demand"
         camera={{
-          position: isCompact ? [-10.5, 11.2, 26.5] : [-8, 8.5, 18],
-          fov: 38,
+          position: isCompact ? [-5.5, 16.0, 34.5] : [-6.5, 12.2, 26.5],
+          fov: 40,
           near: 0.1,
-          far: 160,
+          far: 180,
         }}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         onCreated={({ gl }) => {
@@ -85,7 +86,7 @@ export function Scene({ view, isCompact, onSelectStrike }: SceneProps) {
         }}
       >
         <color attach="background" args={['#07090c']} />
-        <fog attach="fog" args={['#07090c', 36, 78]} />
+        <fog attach="fog" args={['#07090c', 52, 105]} />
 
         <ResponsiveCamera isCompact={isCompact} />
 
@@ -97,21 +98,21 @@ export function Scene({ view, isCompact, onSelectStrike }: SceneProps) {
         <OrbitControls
           makeDefault
           enablePan={false}
-          target={[0, 1.2, 0]}
+          target={isCompact ? [0, -0.4, 0.5] : [-0.3, 0.4, 0.6]}
           minPolarAngle={0.5}
           maxPolarAngle={1.45}
           minAzimuthAngle={-1.2}
           maxAzimuthAngle={1.2}
           minDistance={12}
-          maxDistance={34}
+          maxDistance={42}
         />
 
         {enableBloom && (
           <EffectComposer multisampling={4}>
             <Bloom
-              luminanceThreshold={0.92}
-              luminanceSmoothing={0.28}
-              intensity={0.4}
+              luminanceThreshold={0.96}
+              luminanceSmoothing={0.22}
+              intensity={0.25}
               mipmapBlur
             />
           </EffectComposer>

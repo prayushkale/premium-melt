@@ -4,9 +4,15 @@ export type Side = 'CE' | 'PE';
 
 const INV_SQRT_2PI = 1 / Math.sqrt(2 * Math.PI);
 
+const TWO_OVER_SQRT_PI = 2 / Math.sqrt(Math.PI);
+
 function erf(x: number): number {
-  const sign = x < 0 ? -1 : 1;
   const ax = Math.abs(x);
+  if (ax < 0.05) {
+    const x2 = x * x;
+    return TWO_OVER_SQRT_PI * x * (1 - x2 / 3 + (x2 * x2) / 10 - (x2 * x2 * x2) / 42);
+  }
+  const sign = x < 0 ? -1 : 1;
   const t = 1 / (1 + 0.3275911 * ax);
   const poly =
     ((((1.061405429 * t - 1.453152027) * t + 1.421413741) * t - 0.284496736) * t +

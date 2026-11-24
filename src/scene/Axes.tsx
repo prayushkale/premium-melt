@@ -56,13 +56,13 @@ export function Axes({ centre }: AxesProps) {
       pts.push(x, 0.005, Z_FRONT, x, 0.005, Z_FRONT + 0.25);
     }
 
-    // Height axis pole at back-left
-    const hx = -halfX - 0.35;
+    // Height axis pole at back-right (clear of the left sliders panel)
+    const hx = halfX + 0.35;
     const topY = 400 * Y_PER_RUPEE;
     pts.push(hx, 0, Z_BACK, hx, topY, Z_BACK);
     for (const rupee of HEIGHT_TICKS) {
       const y = rupee * Y_PER_RUPEE;
-      pts.push(hx - 0.22, y, Z_BACK, hx + 0.14, y, Z_BACK);
+      pts.push(hx - 0.14, y, Z_BACK, hx + 0.22, y, Z_BACK);
     }
 
     const geo = new THREE.BufferGeometry();
@@ -116,7 +116,7 @@ export function Axes({ centre }: AxesProps) {
       rotation: [-Math.PI / 2, 0, 0],
     });
 
-    // "Expiry" at front-left, "Now" at back-left
+    // "Expiry" at front-left, "Now" at back-left (upright so it never foreshortens)
     entries.push({
       key: 'depth-expiry',
       label: createLabelTexture('Expiry', {
@@ -141,11 +141,10 @@ export function Axes({ centre }: AxesProps) {
         paddingX: 10,
         paddingY: 4,
       }),
-      position: [-halfX - 1.55, 0.04, Z_BACK + 0.1],
-      rotation: [-Math.PI / 2, 0, 0],
+      position: [-halfX - 1.35, 0.38, Z_BACK],
     });
 
-    // Height ticks at ₹100, ₹200, ₹300, ₹400
+    // Height ticks at ₹100, ₹200, ₹300, ₹400 on back-right
     for (const rupee of HEIGHT_TICKS) {
       const y = rupee * Y_PER_RUPEE;
       entries.push({
@@ -154,11 +153,11 @@ export function Axes({ centre }: AxesProps) {
           fontSize: 34,
           weight: 500,
           color: '#8d938f',
-          worldHeight: 0.52,
+          worldHeight: 0.54,
           paddingX: 8,
           paddingY: 4,
         }),
-        position: [-halfX - 1.45, y, Z_BACK],
+        position: [halfX + 1.4, y, Z_BACK],
       });
     }
 
