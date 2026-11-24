@@ -1,10 +1,14 @@
 :root {
   --bg: #07090c;
   --panel: #0d1217;
+  --panel-alt: #121920;
   --panel-border: #1e2830;
+  --panel-border-strong: #2b3a44;
   --text: #e9e4d8;
   --muted: #8d938f;
   --accent: #ff9a3c;
+  --track: #1a242c;
+  --radius: 4px;
 }
 
 *,
@@ -20,9 +24,773 @@ body,
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: 'IBM Plex Sans Condensed', system-ui, -apple-system, sans-serif;
   font-variant-numeric: tabular-nums;
+  line-height: 1.35;
   -webkit-font-smoothing: antialiased;
+}
+
+button,
+input {
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+}
+
+a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: #46535c;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.scene-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.webgl-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  font-size: 18px;
+  color: var(--text);
+  background: var(--bg);
+  z-index: 0;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+}
+
+/* Top bar */
+.top-bar {
+  position: fixed;
+  top: 12px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.top-bar-left,
+.top-bar-right {
+  pointer-events: auto;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+}
+
+.top-bar-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+.app-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.advice-notice {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.copy-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-copy,
+.btn-secondary,
+.btn-step,
+.btn-remove {
+  appearance: none;
+  background: var(--panel-alt);
+  border: 1px solid var(--panel-border-strong);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-copy:hover,
+.btn-secondary:hover,
+.btn-step:hover:not(:disabled),
+.btn-remove:hover {
+  background: #19232c;
+  border-color: #3d525f;
+}
+
+.btn-step:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.copy-fallback {
+  width: 210px;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.credit-line {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Sliders panel */
+.sliders-panel {
+  position: fixed;
+  top: 80px;
+  left: 16px;
+  z-index: 15;
+  width: 236px;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.slider-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.spot-form {
+  margin: 0;
+}
+
+.spot-number {
+  width: 78px;
+  background: var(--bg);
+  border: 1px solid var(--panel-border-strong);
+  border-radius: var(--radius);
+  padding: 2px 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: right;
+  color: var(--text);
+}
+
+.slider-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.range-input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 22px;
+  background: transparent;
+  cursor: pointer;
+  margin: 0;
+}
+
+.range-input::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--track);
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--bg);
+  margin-top: -6px;
+}
+
+.range-input::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--track);
+}
+
+.range-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--bg);
+}
+
+.model-footnote {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--panel-border);
+  padding-top: 8px;
+}
+
+/* Flag card */
+.flag-card {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  z-index: 15;
+  width: 296px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flag-card-empty {
+  width: 236px;
+  gap: 8px;
+}
+
+.flag-empty-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.flag-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.flag-strike-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flag-strike-value {
+  font-size: 18px;
+  font-weight: 600;
+  min-width: 58px;
+  text-align: center;
+  color: var(--text);
+}
+
+.btn-step {
+  padding: 3px 8px;
+  font-size: 13px;
+}
+
+.btn-remove {
+  padding: 3px 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.btn-remove:hover {
+  color: var(--text);
+}
+
+.flag-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.flag-col {
+  background: var(--bg);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+}
+
+.flag-col-active {
+  border-color: var(--accent);
+}
+
+.flag-col-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.flag-side {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.flag-terrain-tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.flag-metrics {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.flag-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13.5px;
+}
+
+.flag-metric dt {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.flag-metric dd {
+  margin: 0;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.flag-explain {
+  border-top: 1px solid var(--panel-border);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.flag-explain-heading {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.flag-explain-line {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+/* Expiry clock */
+.clock-bar {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  z-index: 20;
+  padding: 10px 16px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.clock-readouts {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.clock-time-group,
+.clock-atm-group {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.clock-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.clock-remaining {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 82px;
+}
+
+.clock-wall {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.clock-atm-strike {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.clock-atm-premium {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 68px;
+  text-align: right;
+}
+
+.clock-melted {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  min-width: 80px;
+  text-align: right;
+}
+
+.clock-slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.clock-range {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.clock-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    #1f3038 0%,
+    #1f3038 var(--elapsed-pct, 0%),
+    #3d4f58 var(--elapsed-pct, 0%),
+    #3d4f58 100%
+  );
+}
+
+.clock-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 44px;
+  height: 44px;
+  margin-top: -19px;
+  border-radius: 50%;
+  border: 11px solid transparent;
+  background-color: var(--handle-color, var(--accent));
+  background-clip: content-box;
+  box-shadow: inset 0 0 0 2px #07090c;
+}
+
+.clock-range::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #2c3a42;
+}
+
+.clock-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #07090c;
+  background-color: var(--handle-color, var(--accent));
+}
+
+.clock-ticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 11px;
+  margin-top: -6px;
+  font-size: 12px;
+  color: var(--muted);
+  user-select: none;
+}
+
+.clock-tick {
+  width: 24px;
+  text-align: center;
+}
+
+.clock-tick:first-child {
+  text-align: left;
+}
+
+.clock-tick:last-child {
+  text-align: right;
+}
+
+/* Medium desktop tightening (1280x720) */
+@media (max-height: 760px) and (min-width: 701px) {
+  .top-bar {
+    top: 10px;
+  }
+
+  .sliders-panel,
+  .flag-card {
+    top: 72px;
+  }
+
+  .clock-bar {
+    bottom: 10px;
+    padding: 8px 14px 8px;
+  }
+}
+
+/* Compact / mobile layout (390x844 and narrow viewports) */
+@media (max-width: 700px) {
+  .top-bar {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .top-bar-left,
+  .top-bar-right {
+    padding: 6px 10px;
+  }
+
+  .top-bar-left {
+    gap: 1px;
+  }
+
+  .app-title {
+    font-size: 16px;
+  }
+
+  .app-subtitle {
+    display: none;
+  }
+
+  .advice-notice {
+    font-size: 11.5px;
+  }
+
+  .top-bar-right {
+    justify-content: space-between;
+    gap: 8px;
+    padding: 5px 10px;
+  }
+
+  .btn-copy {
+    padding: 3px 9px;
+    font-size: 12.5px;
+  }
+
+  .credit-line {
+    font-size: 11.5px;
+  }
+
+  .copy-fallback {
+    width: 145px;
+    font-size: 11.5px;
+  }
+
+  .sliders-panel {
+    top: 98px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    padding: 8px 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+  }
+
+  .slider-group {
+    gap: 2px;
+  }
+
+  .slider-header {
+    font-size: 12.5px;
+  }
+
+  .spot-number {
+    width: 64px;
+    font-size: 12.5px;
+    padding: 1px 4px;
+  }
+
+  .slider-value {
+    font-size: 12.5px;
+  }
+
+  .model-footnote {
+    grid-column: 1 / -1;
+    font-size: 11px;
+    padding-top: 4px;
+  }
+
+  /* Compact sheet docked above the expiry clock */
+  .flag-card {
+    top: auto;
+    left: 8px;
+    right: 8px;
+    bottom: 122px;
+    width: auto;
+    padding: 8px 10px;
+    gap: 6px;
+    max-height: 235px;
+    overflow-y: auto;
+  }
+
+  .flag-card-empty {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+  }
+
+  .flag-empty-text {
+    font-size: 12.5px;
+  }
+
+  .btn-secondary {
+    font-size: 12.5px;
+    padding: 4px 8px;
+  }
+
+  .flag-strike-value {
+    font-size: 15px;
+  }
+
+  .flag-col {
+    padding: 6px 8px;
+  }
+
+  .flag-col-head {
+    margin-bottom: 3px;
+  }
+
+  .flag-side {
+    font-size: 13.5px;
+  }
+
+  .flag-metric {
+    font-size: 12px;
+  }
+
+  .flag-explain {
+    padding-top: 6px;
+    gap: 2px;
+  }
+
+  .flag-explain-heading,
+  .flag-explain-line {
+    font-size: 12px;
+  }
+
+  .clock-bar {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 7px 10px 6px;
+    gap: 2px;
+  }
+
+  .clock-readouts {
+    gap: 4px 10px;
+  }
+
+  .clock-time-group,
+  .clock-atm-group {
+    gap: 7px;
+  }
+
+  .clock-label {
+    display: none;
+  }
+
+  .clock-remaining,
+  .clock-atm-premium {
+    font-size: 15px;
+    min-width: auto;
+  }
+
+  .clock-wall,
+  .clock-atm-strike,
+  .clock-melted {
+    font-size: 12.5px;
+    min-width: auto;
+  }
+
+  .clock-ticks {
+    font-size: 10.5px;
+    padding: 0 6px;
+  }
 }
