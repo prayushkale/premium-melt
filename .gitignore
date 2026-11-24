@@ -1,0 +1,6 @@
+node_modules
+dist
+.deploy.env
+test-results
+playwright-report
+demo/*.mov
