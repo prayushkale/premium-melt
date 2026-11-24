@@ -18,7 +18,8 @@ read and build the @[PLAN.md]
 |---|---|---|---|---|---|---|
 
 ## Tests
-Parity cases run: / Tests passing: / Worst parity error:
+Parity cases run: 3528 / Tests passing: 26/26 / Worst parity error: 6.31e-12
+Deliberate parity check (not a model failure): changed `normCdf(-d1)` to `normCdf(d1)` in `price()` put branch -> `pricing.test.ts` failed with `AssertionError: expected 9.20603875582674 to be less than or equal to 0.02` (plus Hull put and finite-difference delta failures); restored immediately and all 26 tests passed.
 
 ## Measured
 Build time spent: / Lines of code: / Frame rate and machine: / Bundle size (gzip):
