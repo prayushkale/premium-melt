@@ -2,7 +2,7 @@
 Series: 3D Web Experiments #1
 Credit: Built with Gemini 4.0
 Reference format: @DilumSanjaya
-Live URL: https://premium-melt.prayushkale.workers.dev
+Live URL: https://melt.prayush.dev
 Repo: https://github.com/prayushkale/premium-melt
 
 ## First prompt (verbatim)
